@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "297046779590",
+    "firebase_url": "https://sendit-2134c.firebaseio.com",
+    "project_id": "sendit-2134c",
+    "storage_bucket": "sendit-2134c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297046779590:android:dd5f507f472d175f",
+        "android_client_info": {
+          "package_name": "com.example.kristie.sendit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297046779590-rllb99nkba9vtts4462hpg46ruq3s4dg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kristie.sendit",
+            "certificate_hash": "133f9c1413c109f0f17605dc04cde30c8cef9e30"
+          }
+        },
+        {
+          "client_id": "297046779590-jppo7t0p8oma1cckdpev5f0h6qjvtob7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADZg23mZLQuqBlICu1ZOyHoqNp2UoYGYo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297046779590-jppo7t0p8oma1cckdpev5f0h6qjvtob7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
