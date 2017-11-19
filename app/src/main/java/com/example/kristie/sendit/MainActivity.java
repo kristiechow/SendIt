@@ -2,6 +2,7 @@ package com.example.kristie.sendit;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -90,21 +91,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
-                if (position == 0) {
+                if (id == 0) {
                     //Intent ProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                     //startActivity(ProfileIntent);
-                } else if (position == 1) {
+                } else if (id == 1) {
                     Intent MainIntent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(MainIntent);
-                } else if (position == 2) {
+                } else if (id == 2) {
                     //Intent SongsIntent = new Intent(MainActivity.this, activity2.class);
                     //startActivity(SongsIntent);
-                } else if (position == 3) {
+                } else if (id == 3) {
                     //Intent CardIntent = new Intent(MainActivity.this, activity3.class);
                     //startActivity(CardIntent);
-                } else if (position == 4) {
+                } else if (id == 4) {
                     //Intent LogoutIntent = new Intent(MainActivity.this, avtivity4.class);
                     //startActivity(LogoutIntent);
+                } else if (id == 5) {
+                    Intent SettingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(SettingsIntent);
                 }
             }
         });
