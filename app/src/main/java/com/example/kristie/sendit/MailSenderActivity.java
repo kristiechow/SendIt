@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by nayibasiselizalde on 11/18/17.
@@ -66,8 +67,10 @@ public class MailSenderActivity extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
+        ButterKnife.bind(this);
 
         emailArray = new JSONArray();
+        c = Calendar.getInstance();
 
         cont.setOnClickListener(new View.OnClickListener() {
 
@@ -115,7 +118,14 @@ public class MailSenderActivity extends Activity {
                 c.set(Calendar.HOUR_OF_DAY, hour);
                 c.set(Calendar.MINUTE, minute);
                 aManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pIntent);
-                Toast.makeText(getApplicationContext(), "Sms scheduled! ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Email scheduled! ",Toast.LENGTH_SHORT).show();
+
+                onSaveClickedSP(v);
+
+                Intent intent = new Intent(MailSenderActivity.this, SuccessEmailActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         });
 
@@ -206,7 +216,6 @@ public class MailSenderActivity extends Activity {
         } catch (JSONException e){
             Log.e("Error", e.getMessage(), e);
         }
-
     }
 
     public void onSendSuccess(){
@@ -256,4 +265,7 @@ public class MailSenderActivity extends Activity {
         return valid;
     }
 
+    public void setC(Calendar c) {
+        this.c = c;
+    }
 }

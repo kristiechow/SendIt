@@ -13,13 +13,11 @@ public class AlarmServiceEmail extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public int onStartCommand(Intent i, int flags, int startId) {
-        // TODO Auto-generated method stub
         String contact = i.getStringExtra("contact");
         String subject = i.getStringExtra("subject");
         String body = i.getStringExtra("body");
@@ -34,5 +32,7 @@ public class AlarmServiceEmail extends Service {
 
         return START_STICKY;
     }
+
+    // TODO: Get request for the user's email and password
 
 }
