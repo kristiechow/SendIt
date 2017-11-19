@@ -16,6 +16,7 @@
         android:background="#ffffffff">
 
         <Button
+            android:id="@+id/email_button"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"

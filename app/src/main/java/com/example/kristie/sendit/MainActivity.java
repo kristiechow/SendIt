@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private String mActivityTitle;
 
     private Button messageButton;
+    private Button emailButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mActivityTitle = getTitle().toString();
 
         messageButton = (Button) findViewById(R.id.messageButton);
+        emailButton = (Button) findViewById(R.id.email_button);
 
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MailSenderActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
