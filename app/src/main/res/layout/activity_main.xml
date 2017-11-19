@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- The first child in the layout is for the main Activity UI-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,11 +22,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="@android:color/transparent"
-            android:padding="3dp"
             android:drawableLeft="@drawable/email"
             android:gravity="left|center_vertical"
-            android:text="    E-MAIL"
-            android:textAppearance="@android:style/TextAppearance.Material.Headline" />
+            android:padding="3dp"
+            android:text="    E-mail"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
         <View
             android:layout_width="fill_parent"
@@ -40,12 +39,12 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:padding="3dp"
+            android:background="@android:color/transparent"
             android:drawableLeft="@drawable/messages"
             android:gravity="left|center_vertical"
-            android:background="@android:color/transparent"
-            android:text="    MESSAGE"
-            android:textAppearance="@android:style/TextAppearance.Material.Headline"/>
+            android:padding="3dp"
+            android:text="    Message"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
         <View
             android:layout_width="fill_parent"
@@ -54,12 +53,12 @@
 
     </LinearLayout>
 
-    <!-- Side navigation drawer UI -->
     <ListView
         android:id="@+id/navList"
-        android:layout_width="200dp"
+        android:layout_width="230dp"
         android:layout_height="match_parent"
         android:layout_gravity="left|start"
+        android:choiceMode="singleChoice"
         android:background="#ffeeeeee"/>
 
 </android.support.v4.widget.DrawerLayout>
