@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
 
+    private Button messageButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView)findViewById(R.id.navList);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
+
+        messageButton = (Button) findViewById(R.id.messageButton);
+
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainActivity.this, SMSActivity.class);
+                MainActivity.this.startActivity(myIntent);
+                finish();
+            }
+        });
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -57,11 +72,14 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+
+
     }
+
 
     private void addDrawerItems() {
 
-        String[] osArray = { "Profile " + currentUser.getDisplayName(), "Organizer", "Contacts", "History", "Scheduled", "Settings" };
+        String[] osArray = { "Profile ", "Organizer", "Contacts", "History", "Scheduled", "Settings" };
         int[] drawableIds = {R.drawable.user, R.drawable.menu, R.drawable.contact, R.drawable.history, R.drawable.scheduled, R.drawable.settings};
 
         CustomAdapter mAdapter = new CustomAdapter(this,  osArray, drawableIds);
@@ -159,4 +177,5 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         // updateUI(currentUser);
     }
+
 }
