@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
@@ -19,6 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
@@ -46,10 +51,13 @@ public class MailSenderActivity extends Activity {
     private String sContact;
     private String sSubject;
     private String sBody;
+    private String sp = "my_shared_preferences";
 
     private Calendar c;
     private AlarmManager aManager;
     private PendingIntent pIntent;
+    public SharedPreferences sharedPreferences;
+    public JSONArray emailArray;
 
     private static final int REQUEST_CODE = 1;
     static final int TIME_DIALOG_ID=1;
@@ -58,6 +66,8 @@ public class MailSenderActivity extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
+
+        emailArray = new JSONArray();
 
         cont.setOnClickListener(new View.OnClickListener() {
 
@@ -175,6 +185,28 @@ public class MailSenderActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+    public void onSaveClickedSP(View view){
+        sharedPreferences = getSharedPreferences(sp, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("receiver", recipient.getText().toString());
+        editor.putString("time", hour+":"+minute);
+        editor.apply();
+    }
+
+    public void storeJson(){
+        JSONObject curr = new JSONObject();
+        try {
+            curr.put("recipient", recipient.getText().toString());
+            curr.put("subject", emailSubject.getText().toString());
+            curr.put("body", emailText.getText().toString());
+            curr.put("hour", hour);
+            curr.put("minute", minute);
+        } catch (JSONException e){
+            Log.e("Error", e.getMessage(), e);
+        }
+
     }
 
     public void onSendSuccess(){
