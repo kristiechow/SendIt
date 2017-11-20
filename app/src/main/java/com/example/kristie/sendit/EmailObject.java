@@ -10,9 +10,10 @@ public class EmailObject {
     public String Subject;
     public String Body;
 
-    public EmailObject() {
-    }
+    public EmailObject(){
 
+    }
+    
     public EmailObject(String sContact, String sSubject, String sBody) {
         this.Contact = Contact;
         this.Subject = Subject;
