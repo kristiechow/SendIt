@@ -121,8 +121,8 @@ public class SMSActivity extends AppCompatActivity {
                 sPhone = etPhone.getText().toString();
                 sSms = etSms.getText().toString();
 
-                if (sPhone.length() > 0 && sSms.length() > 0)
-                    sendSMS(sPhone, sSms);
+                //if (sPhone.length() > 0 && sSms.length() > 0)
+                //    sendSMS(sPhone, sSms);
 
 
                 etSms.getText().clear();
@@ -139,7 +139,7 @@ public class SMSActivity extends AppCompatActivity {
                 c.set(Calendar.HOUR_OF_DAY, hour);
                 c.set(Calendar.MINUTE, minute);
                 aManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pIntent);
-                Toast.makeText(getApplicationContext(), "Sms scheduled! " + sSms, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Sms scheduled! ", Toast.LENGTH_SHORT).show();
             }
         });
 

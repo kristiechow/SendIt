@@ -20,6 +20,9 @@
         <service android:name=".AlarmServiceEmail">
 
         </service>
+        <service android:name=".AlarmService">
+
+        </service>
         <activity
             android:name="com.example.kristie.sendit.MainActivity"
             android:label="@string/app_name" >
