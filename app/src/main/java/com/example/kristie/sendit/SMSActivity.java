@@ -12,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,13 +32,19 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
+import org.json.JSONArray;
+
 import java.security.acl.Permission;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SMSActivity extends AppCompatActivity {
 
     public String sPhone, sSms;
     private EditText etPhone, etSms;
+    private String sp = "my_shared_preferences";
 
     private Button bStart, bCancel, bTimeSelect, bPhone;
 
@@ -50,9 +57,9 @@ public class SMSActivity extends AppCompatActivity {
 
     private AlarmManager aManager;
     private PendingIntent pIntent;
-
-    private static final int PERMISSION_REQUEST_CODE = 1;
-
+    public SharedPreferences sharedPreferences;
+    public JSONArray emailArray;
+    private Map<String, String> smsData = new HashMap<String, String>();
     public SMSActivity() {
         // Assign current Date and Time Values to Variables
         c = Calendar.getInstance();
@@ -131,6 +138,10 @@ public class SMSActivity extends AppCompatActivity {
                 i.putExtra("exPhone", sPhone);
                 i.putExtra("exSmS", sSms);
 
+                smsData.put("Phone", sPhone);
+                smsData.put("Message", sSms);
+
+
 
                 pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -140,6 +151,13 @@ public class SMSActivity extends AppCompatActivity {
                 c.set(Calendar.MINUTE, minute);
                 aManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pIntent);
                 Toast.makeText(getApplicationContext(), "Sms scheduled! ", Toast.LENGTH_SHORT).show();
+
+
+                onSaveClickedSP(v);
+
+                Intent intent = new Intent(SMSActivity.this, SucessSMSActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -182,6 +200,14 @@ public class SMSActivity extends AppCompatActivity {
             permission_list[0] = permission;
             ActivityCompat.requestPermissions(this, permission_list, 1);
         }
+    }
+
+    public void onSaveClickedSP(View view){
+        sharedPreferences = getSharedPreferences(sp, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("receiver", sPhone.toString());
+        editor.putString("time", hour+":"+minute);
+        editor.apply();
     }
 
     //Choose phone in contact and set edit text
@@ -228,6 +254,7 @@ public class SMSActivity extends AppCompatActivity {
         }
         return null;
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void sendSMS(String phoneNumber, String message) {

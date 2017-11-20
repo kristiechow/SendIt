@@ -39,6 +39,7 @@
         <activity android:name="com.example.kristie.sendit.SettingsActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.MailSenderActivity" android:theme="@style/AppTheme.Dark"/>
         <activity android:name="com.example.kristie.sendit.SuccessEmailActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name="com.example.kristie.sendit.SucessSMSActivity" android:theme="@style/AppTheme.Dark"/>
     </application>
 
 </manifest>
