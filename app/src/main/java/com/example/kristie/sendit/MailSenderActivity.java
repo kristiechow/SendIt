@@ -21,11 +21,17 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,12 +68,19 @@ public class MailSenderActivity extends Activity {
 
     private static final int REQUEST_CODE = 1;
     static final int TIME_DIALOG_ID=1;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference mScheduledEmailReference;
+    private Map<String, String> emailData = new HashMap<String, String>();
+    public static final String FIREBASE_CHILD_SCHEDULED_EMAIL = "scheduledEmail";
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(final Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
         ButterKnife.bind(this);
+
+        mScheduledEmailReference = FirebaseDatabase.getInstance().getReference().child(FIREBASE_CHILD_SCHEDULED_EMAIL);
 
         emailArray = new JSONArray();
         c = Calendar.getInstance();
@@ -111,6 +124,12 @@ public class MailSenderActivity extends Activity {
                 i.putExtra("subject", sSubject);
                 i.putExtra("body", sBody);
 
+                emailData.put("Subject", sSubject);
+                emailData.put("Contact", sContact);
+                emailData.put("Body", sBody);
+
+                saveScheduledEmailToFirebase(emailData);
+
                 pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 aManager = (AlarmManager)getSystemService(ALARM_SERVICE);
@@ -135,6 +154,10 @@ public class MailSenderActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    public void saveScheduledEmailToFirebase(Map<String, String> map) {
+        mScheduledEmailReference.push().setValue(map);
     }
 
     @Override
