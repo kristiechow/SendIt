@@ -3,6 +3,7 @@ package com.example.kristie.sendit;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Message;
+import android.media.FaceDetector;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button messageButton;
     private Button emailButton;
+    private Button fbButton;
 
 
     @Override
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         messageButton = (Button) findViewById(R.id.messageButton);
         emailButton = (Button) findViewById(R.id.email_button);
+        fbButton = (Button) findViewById(R.id.facebookButton);
 
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +76,22 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FacebookActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        } else {
+            // No user is signed in
+        }
 
         addDrawerItems();
         setupDrawer();
