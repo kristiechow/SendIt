@@ -2,6 +2,7 @@ package com.example.kristie.sendit;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.FaceDetector;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button messageButton;
     private Button emailButton;
+    private Button fbButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         messageButton = (Button) findViewById(R.id.messageButton);
         emailButton = (Button) findViewById(R.id.email_button);
+        fbButton = (Button) findViewById(R.id.facebookButton);
 
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MailSenderActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FacebookActivity.class);
                 MainActivity.this.startActivity(intent);
                 finish();
             }

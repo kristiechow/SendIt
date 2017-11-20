@@ -53,6 +53,25 @@
             android:layout_height="1dp"
             android:background="#c0c0c0"/>
 
+        <Button
+            android:id="@+id/facebookButton"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/fb_logo"
+            android:gravity="left|center_vertical"
+            android:padding="3dp"
+            android:text="    Facebook"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0"/>
+
     </LinearLayout>
 
     <ListView
