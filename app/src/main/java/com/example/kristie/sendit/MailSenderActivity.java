@@ -57,7 +57,6 @@ public class MailSenderActivity extends Activity {
     private Calendar c;
     private AlarmManager aManager;
     private PendingIntent pIntent;
-    private PendingIntent pendingIntent;
     public SharedPreferences sharedPreferences;
     public JSONArray emailArray;
 
@@ -112,9 +111,7 @@ public class MailSenderActivity extends Activity {
                 i.putExtra("subject", sSubject);
                 i.putExtra("body", sBody);
 
-                final int id = (int) System.currentTimeMillis();
-
-                pIntent = PendingIntent.getService(getApplicationContext(), id, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 aManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 c.setTimeInMillis(System.currentTimeMillis());
