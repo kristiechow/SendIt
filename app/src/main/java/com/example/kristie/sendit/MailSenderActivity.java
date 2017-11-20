@@ -61,6 +61,8 @@ public class MailSenderActivity extends Activity {
     private int mHour;
     private int mMinute;
 
+    private int getHour, getMinute;
+
     private String sContact;
     private String sSubject;
     private String sBody;
@@ -79,6 +81,12 @@ public class MailSenderActivity extends Activity {
     private Map<String, String> emailData = new HashMap<String, String>();
     public static final String FIREBASE_CHILD_SCHEDULED_EMAIL = "scheduledEmail";
 
+    public MailSenderActivity() {
+        // Assign current Date and Time Values to Variables
+        c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState){
@@ -90,6 +98,11 @@ public class MailSenderActivity extends Activity {
 
         emailArray = new JSONArray();
         c = Calendar.getInstance();
+
+        getHour = c.get(Calendar.HOUR);
+        getMinute = c.get(Calendar.MINUTE);
+
+
 
         cont.setOnClickListener(new View.OnClickListener() {
 
@@ -192,7 +205,7 @@ public class MailSenderActivity extends Activity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void send15minNotification(int hour, int minute){
 
-        if (hour == 0 && minute < 15){
+        if (getHour-hour ==0 && minute-getMinute < 15){
 
         }
         else {
