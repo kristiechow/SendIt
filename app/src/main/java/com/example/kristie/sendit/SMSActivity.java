@@ -48,6 +48,8 @@ public class SMSActivity extends AppCompatActivity {
 
     private Button bStart, bCancel, bTimeSelect, bPhone;
 
+    private int getHour, getMinute;
+
     static final int TIME_DIALOG_ID = 1;
     private static final int REQUEST_CODE = 1;
 
@@ -96,6 +98,10 @@ public class SMSActivity extends AppCompatActivity {
 
             }
         }
+
+        c = Calendar.getInstance();
+        getHour = c.get(Calendar.HOUR);
+        getMinute = c.get(Calendar.MINUTE);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
         etSms = (EditText) findViewById(R.id.etSms);
@@ -260,7 +266,7 @@ public class SMSActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void send15minNotification(int hour, int minute){
 
-        if (hour == 0 && minute < 15){
+        if (getHour-hour ==0 && minute-getMinute < 15){
 
         }
         else {

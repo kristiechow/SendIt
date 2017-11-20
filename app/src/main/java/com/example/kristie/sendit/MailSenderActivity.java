@@ -7,13 +7,16 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +61,10 @@ public class MailSenderActivity extends Activity {
     private int mHour;
     private int mMinute;
 
+    private int getHour, getMinute;
+
+    private String email, password;
+
     private String sContact;
     private String sSubject;
     private String sBody;
@@ -76,6 +83,12 @@ public class MailSenderActivity extends Activity {
     private Map<String, String> emailData = new HashMap<String, String>();
     public static final String FIREBASE_CHILD_SCHEDULED_EMAIL = "scheduledEmails";
 
+    public MailSenderActivity() {
+        // Assign current Date and Time Values to Variables
+        c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState){
@@ -87,6 +100,11 @@ public class MailSenderActivity extends Activity {
 
         emailArray = new JSONArray();
         c = Calendar.getInstance();
+
+        getHour = c.get(Calendar.HOUR);
+        getMinute = c.get(Calendar.MINUTE);
+
+
 
         cont.setOnClickListener(new View.OnClickListener() {
 
@@ -143,6 +161,8 @@ public class MailSenderActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Email scheduled! ",Toast.LENGTH_SHORT).show();
 
                 onSaveClickedSP(v);
+                send15minNotification(hour, minute);
+                sendsentNotification(hour, minute);
 
                 Intent intent = new Intent(MailSenderActivity.this, SuccessEmailActivity.class);
                 startActivity(intent);
@@ -184,6 +204,60 @@ public class MailSenderActivity extends Activity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void send15minNotification(int hour, int minute){
+
+        if (getHour-hour ==0 && minute-getMinute < 15){
+
+        }
+        else {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (minute < 15) {
+                if (hour == 1) {
+                    hour = 12;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                } else {
+                    hour = hour - 1;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                }
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute - 15);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+            }
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void sendsentNotification(int hour, int minute){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION2");
+        notificationIntent.addCategory("android.intent.category.DEFAULT2");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+    }
+
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int hourOfDay, int min) {
@@ -213,8 +287,13 @@ public class MailSenderActivity extends Activity {
                     String emailMessage = emailText.getText().toString();
                     String subject = emailSubject.getText().toString();
 
-                    GMailSender sender = new GMailSender("nayib.asis@gmail.com", "lenaBem@n54a");
-                    sender.sendMail(subject, emailMessage, "nayib.asis@gmail.com",
+                    sharedPreferences = getSharedPreferences(sp, 0);
+                    email = sharedPreferences.getString("email","");
+                    password = sharedPreferences.getString("password", "");
+
+
+                    GMailSender sender = new GMailSender(email, password);
+                    sender.sendMail(subject, emailMessage, email,
                             person);
                 } catch (Exception e){
                     Log.e("FAIL_MAIL", e.getMessage(), e);

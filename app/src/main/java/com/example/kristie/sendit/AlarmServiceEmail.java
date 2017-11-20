@@ -2,6 +2,7 @@ package com.example.kristie.sendit;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -10,6 +11,10 @@ import android.util.Log;
  */
 
 public class AlarmServiceEmail extends Service {
+
+    private String sp = "my_shared_preferences";
+    public SharedPreferences sharedPreferences;
+    private String email, password;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -22,9 +27,13 @@ public class AlarmServiceEmail extends Service {
         String subject = i.getStringExtra("subject");
         String body = i.getStringExtra("body");
 
-        GMailSender gMailSender = new GMailSender("nayib.asis@gmail.com", "lenaBem@n54a");
+        sharedPreferences = getSharedPreferences(sp, 0);
+        email = sharedPreferences.getString("email","");
+        password = sharedPreferences.getString("password", "");
+
+        GMailSender gMailSender = new GMailSender(email, password);
         try {
-            gMailSender.sendMail(subject, body, "nayib.asis@gmail.com", contact);
+            gMailSender.sendMail(subject, body, email, contact);
             Log.d("GMAIL", "WORKS");
         } catch (Exception e) {
             e.printStackTrace();

@@ -25,6 +25,7 @@ public class AlarmReceiverNow extends BroadcastReceiver {
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setDefaults(-1);
 
         Notification notification = builder.setContentTitle("SendIt: Your message was sent")
                 .setContentText("Swipe to view your current schedule")
