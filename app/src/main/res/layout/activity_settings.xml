@@ -28,6 +28,51 @@
         android:text="Logout" />
 
 </LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="200dp"
+            android:layout_height="200dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Notification Pref:"
+                android:gravity="center"
+                android:textColor="#080000"
+                android:textSize="15dp" />
+
+            <RadioButton
+                android:id="@+id/radioNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="None" />
+
+            <RadioButton
+                android:id="@+id/radioVibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:text="Vibrate" />
+
+            <RadioButton
+                android:id="@+id/radioSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sounds" />
+
+
+        </RadioGroup>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/navList"
@@ -36,5 +81,6 @@
         android:layout_gravity="left|start"
         android:choiceMode="singleChoice"
         android:background="#ffeeeeee"/>
+
 
 </android.support.v4.widget.DrawerLayout>
