@@ -73,7 +73,19 @@ public class SMSActivity extends AppCompatActivity {
 
                 Log.d("permission", "permission denied to SEND_SMS - requesting it");
 
-                requestSmsPermission();
+                requestSmsSendPermission();
+
+            }
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.RECEIVE_SMS)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d("permission", "permission denied to SEND_SMS - requesting it");
+
+                requestSmsReceivePermission();
 
             }
         }
@@ -153,7 +165,16 @@ public class SMSActivity extends AppCompatActivity {
         });
     }
 
-    private void requestSmsPermission() {
+    private void requestSmsSendPermission() {
+        String permission = Manifest.permission.SEND_SMS;
+        int grant = ContextCompat.checkSelfPermission(this, permission);
+        if (grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
+    }
+    private void requestSmsReceivePermission() {
         String permission = Manifest.permission.RECEIVE_SMS;
         int grant = ContextCompat.checkSelfPermission(this, permission);
         if (grant != PackageManager.PERMISSION_GRANTED) {
