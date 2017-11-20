@@ -3,6 +3,11 @@
     package="com.example.kristie.sendit">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"> </uses-permission>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19"/>
 
     <application
         android:allowBackup="true"
