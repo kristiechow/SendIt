@@ -53,7 +53,7 @@ public class ScheduledActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        mScheduledEmailReference = FirebaseDatabase.getInstance().getReference().child("scheduledEmail");
+        mScheduledEmailReference = FirebaseDatabase.getInstance().getReference().child("scheduledEmails");
         mAuth = FirebaseAuth.getInstance();
         mListView = (ListView) findViewById(R.id.scheduled_list_view);
         mRef = new Firebase("https://sendit-2134c.firebaseio.com/");

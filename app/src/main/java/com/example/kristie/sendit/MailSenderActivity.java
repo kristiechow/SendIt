@@ -74,7 +74,7 @@ public class MailSenderActivity extends Activity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mScheduledEmailReference;
     private Map<String, String> emailData = new HashMap<String, String>();
-    public static final String FIREBASE_CHILD_SCHEDULED_EMAIL = "scheduledEmail";
+    public static final String FIREBASE_CHILD_SCHEDULED_EMAIL = "scheduledEmails";
 
 
     @Override
