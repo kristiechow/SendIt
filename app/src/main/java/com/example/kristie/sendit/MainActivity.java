@@ -1,7 +1,10 @@
 package com.example.kristie.sendit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Message;
 import android.media.FaceDetector;
 import android.provider.Settings;
@@ -80,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         fbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FacebookActivity.class);
-                MainActivity.this.startActivity(intent);
-                finish();
+                Intent facebookIntent = openFacebook(MainActivity.this);
+                startActivity(facebookIntent);
+
             }
         });
 
@@ -113,6 +116,18 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    public static Intent openFacebook(Context context){
+        try {
+            context.getPackageManager().getPackageInfo("com.facebook.katana",0);
+
+            return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"));
+        } catch (Exception e) {
+
+            return new Intent (Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"));
+
+        }
     }
 
     private void addDrawerItems() {
