@@ -37,12 +37,30 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".NotificationActivity" />
+
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".AlarmReceiverNow">
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION2" />
+                <category android:name="android.intent.category.DEFAULT2" />
+            </intent-filter>
+        </receiver>
+
+
         <activity android:name="com.example.kristie.sendit.LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.SignupActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.SMSActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.SettingsActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.MailSenderActivity" android:theme="@style/AppTheme.Dark"/>
         <activity android:name="com.example.kristie.sendit.SuccessEmailActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name="com.example.kristie.sendit.SucessSMSActivity" android:theme="@style/AppTheme.Dark"/>
     </application>
 
 </manifest>

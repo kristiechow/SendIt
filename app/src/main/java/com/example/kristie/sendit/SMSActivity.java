@@ -12,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,13 +32,19 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
+import org.json.JSONArray;
+
 import java.security.acl.Permission;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SMSActivity extends AppCompatActivity {
 
     public String sPhone, sSms;
     private EditText etPhone, etSms;
+    private String sp = "my_shared_preferences";
 
     private Button bStart, bCancel, bTimeSelect, bPhone;
 
@@ -50,9 +57,9 @@ public class SMSActivity extends AppCompatActivity {
 
     private AlarmManager aManager;
     private PendingIntent pIntent;
-
-    private static final int PERMISSION_REQUEST_CODE = 1;
-
+    public SharedPreferences sharedPreferences;
+    public JSONArray emailArray;
+    private Map<String, String> smsData = new HashMap<String, String>();
     public SMSActivity() {
         // Assign current Date and Time Values to Variables
         c = Calendar.getInstance();
@@ -131,6 +138,10 @@ public class SMSActivity extends AppCompatActivity {
                 i.putExtra("exPhone", sPhone);
                 i.putExtra("exSmS", sSms);
 
+                smsData.put("Phone", sPhone);
+                smsData.put("Message", sSms);
+
+
 
                 pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -140,6 +151,15 @@ public class SMSActivity extends AppCompatActivity {
                 c.set(Calendar.MINUTE, minute);
                 aManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pIntent);
                 Toast.makeText(getApplicationContext(), "Sms scheduled! ", Toast.LENGTH_SHORT).show();
+
+
+                onSaveClickedSP(v);
+                send15minNotification(hour, minute);
+                sendsentNotification(hour, minute);
+
+                Intent intent = new Intent(SMSActivity.this, SucessSMSActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -182,6 +202,14 @@ public class SMSActivity extends AppCompatActivity {
             permission_list[0] = permission;
             ActivityCompat.requestPermissions(this, permission_list, 1);
         }
+    }
+
+    public void onSaveClickedSP(View view){
+        sharedPreferences = getSharedPreferences(sp, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("receiver", sPhone.toString());
+        editor.putString("time", hour+":"+minute);
+        editor.apply();
     }
 
     //Choose phone in contact and set edit text
@@ -228,6 +256,61 @@ public class SMSActivity extends AppCompatActivity {
         }
         return null;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void send15minNotification(int hour, int minute){
+
+        if (hour == 0 && minute < 15){
+
+        }
+        else {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (minute < 15) {
+                if (hour == 1) {
+                    hour = 12;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                } else {
+                    hour = hour - 1;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                }
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute - 15);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+            }
+        }
+}
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void sendsentNotification(int hour, int minute){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION2");
+        notificationIntent.addCategory("android.intent.category.DEFAULT2");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void sendSMS(String phoneNumber, String message) {

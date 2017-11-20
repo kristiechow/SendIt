@@ -27,18 +27,13 @@ public class AlarmService extends Service {
 		public int onStartCommand(Intent i, int flags, int startId) {
 			// TODO Auto-generated method stub
 
-            Log.d("SHOOK", "YES1");
 			String SPhone = i.getStringExtra("exPhone");
 			String SSms = i.getStringExtra("exSmS");
 
             if (checkSelfPermission(android.Manifest.permission.SEND_SMS)
                     == PackageManager.PERMISSION_GRANTED) {
-
-                Log.d("SHOOK", "YES1.5");
-
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(SPhone, null, SSms, null, null);
-                Log.d("SHOOK", "YES2");
             }
             else {
                 Toast.makeText(AlarmService.this, "Permission not Granted", Toast.LENGTH_SHORT).show();
@@ -46,5 +41,5 @@ public class AlarmService extends Service {
 			
 			return START_STICKY;
 		}
-		
+
 }
