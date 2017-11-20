@@ -154,6 +154,8 @@ public class SMSActivity extends AppCompatActivity {
 
 
                 onSaveClickedSP(v);
+                send15minNotification(hour, minute);
+                sendsentNotification(hour, minute);
 
                 Intent intent = new Intent(SMSActivity.this, SucessSMSActivity.class);
                 startActivity(intent);
@@ -253,6 +255,60 @@ public class SMSActivity extends AppCompatActivity {
                 return new TimePickerDialog(this, mTimeSetListener, mHour, mMinute, false);
         }
         return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void send15minNotification(int hour, int minute){
+
+        if (hour == 0 && minute < 15){
+
+        }
+        else {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            notificationIntent.addCategory("android.intent.category.DEFAULT");
+
+            PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (minute < 15) {
+                if (hour == 1) {
+                    hour = 12;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                } else {
+                    hour = hour - 1;
+                    minute = 60 - (15 - minute);
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.HOUR_OF_DAY, hour);
+                    cal.set(Calendar.MINUTE, minute);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                }
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute - 15);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+            }
+        }
+}
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void sendsentNotification(int hour, int minute){
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION2");
+        notificationIntent.addCategory("android.intent.category.DEFAULT2");
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
     }
 
 
