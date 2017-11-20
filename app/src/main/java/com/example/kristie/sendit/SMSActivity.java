@@ -33,6 +33,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.json.JSONArray;
 
 import java.security.acl.Permission;
@@ -61,7 +64,10 @@ public class SMSActivity extends AppCompatActivity {
     private PendingIntent pIntent;
     public SharedPreferences sharedPreferences;
     public JSONArray emailArray;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference mScheduledSMSReference;
     private Map<String, String> smsData = new HashMap<String, String>();
+    public static final String FIREBASE_CHILD_SCHEDULED_SMS = "scheduledSMS";
     public SMSActivity() {
         // Assign current Date and Time Values to Variables
         c = Calendar.getInstance();
@@ -74,6 +80,8 @@ public class SMSActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smsactivity);
+
+        //mScheduledSMSReference = FirebaseDatabase.getInstance().getReference().child(FIREBASE_CHILD_SCHEDULED_SMS);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
@@ -148,7 +156,6 @@ public class SMSActivity extends AppCompatActivity {
                 smsData.put("Message", sSms);
 
 
-
                 pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -165,7 +172,7 @@ public class SMSActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SMSActivity.this, SucessSMSActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -189,6 +196,14 @@ public class SMSActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void saveScheduledEmailToFirebase(Map<String, String> map) {
+        mScheduledSMSReference.push().setValue(map);
+    }
+
+    public void editScheduledEmailToFirebase(Map<String, String> map) {
+        mScheduledSMSReference.push().setValue(map);
     }
 
     private void requestSmsSendPermission() {

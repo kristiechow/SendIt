@@ -149,7 +149,12 @@ public class MailSenderActivity extends Activity {
                 emailData.put("Contact", sContact);
                 emailData.put("Body", sBody);
 
-                saveScheduledEmailToFirebase(emailData);
+                if (emailData.get("Subject").length() > 0 ){
+                    editScheduledEmailToFirebase(emailData);
+                }
+                else {
+                    saveScheduledEmailToFirebase(emailData);
+                }
 
                 pIntent = PendingIntent.getService(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -166,7 +171,6 @@ public class MailSenderActivity extends Activity {
 
                 Intent intent = new Intent(MailSenderActivity.this, SuccessEmailActivity.class);
                 startActivity(intent);
-                finish();
 
             }
         });
@@ -180,6 +184,10 @@ public class MailSenderActivity extends Activity {
     }
 
     public void saveScheduledEmailToFirebase(Map<String, String> map) {
+        mScheduledEmailReference.push().setValue(map);
+    }
+
+    public void editScheduledEmailToFirebase(Map<String, String> map) {
         mScheduledEmailReference.push().setValue(map);
     }
 

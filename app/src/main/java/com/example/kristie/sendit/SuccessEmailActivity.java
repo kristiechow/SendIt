@@ -36,6 +36,13 @@ public class SuccessEmailActivity extends Activity {
 
         setText();
 
+        editEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         returnTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

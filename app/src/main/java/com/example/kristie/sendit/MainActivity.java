@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent = new Intent(MainActivity.this, SMSActivity.class);
                 MainActivity.this.startActivity(myIntent);
-                finish();
             }
         });
 
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MailSenderActivity.class);
                 MainActivity.this.startActivity(intent);
-                finish();
             }
         });
 

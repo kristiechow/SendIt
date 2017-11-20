@@ -34,6 +34,13 @@ public class SucessSMSActivity extends Activity {
 
         setText();
 
+        editSMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         returnTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

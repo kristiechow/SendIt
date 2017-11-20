@@ -63,7 +63,7 @@ public class ScheduledActivity extends AppCompatActivity {
 
 
         Firebase.setAndroidContext(this);
-        FirebaseListAdapter<EmailObject> Adapter = new FirebaseListAdapter<EmailObject>(this, EmailObject.class, android.R.layout.two_line_list_item, mScheduledEmailReference) {
+        FirebaseListAdapter<EmailObject> Adapter = new FirebaseListAdapter<EmailObject>(this, EmailObject.class, android.R.layout.simple_list_item_2, mScheduledEmailReference) {
             @Override
             protected void populateView(View v, EmailObject emailObject, int i) {
               ((TextView)v.findViewById(android.R.id.text1)).setText("To: " + emailObject.getsContact());

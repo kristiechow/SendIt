@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Intent myIntent = new Intent(SettingsActivity.this, LoginActivity.class);
         SettingsActivity.this.startActivity(myIntent);
-        finish();
+
     }
 
 }
