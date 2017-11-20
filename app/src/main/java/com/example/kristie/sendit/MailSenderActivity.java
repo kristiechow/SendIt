@@ -63,6 +63,8 @@ public class MailSenderActivity extends Activity {
 
     private int getHour, getMinute;
 
+    private String email, password;
+
     private String sContact;
     private String sSubject;
     private String sBody;
@@ -285,8 +287,13 @@ public class MailSenderActivity extends Activity {
                     String emailMessage = emailText.getText().toString();
                     String subject = emailSubject.getText().toString();
 
-                    GMailSender sender = new GMailSender("nayib.asis@gmail.com", "lenaBem@n54a");
-                    sender.sendMail(subject, emailMessage, "nayib.asis@gmail.com",
+                    sharedPreferences = getSharedPreferences(sp, 0);
+                    email = sharedPreferences.getString("email","");
+                    password = sharedPreferences.getString("password", "");
+
+
+                    GMailSender sender = new GMailSender(email, password);
+                    sender.sendMail(subject, emailMessage, email,
                             person);
                 } catch (Exception e){
                     Log.e("FAIL_MAIL", e.getMessage(), e);
