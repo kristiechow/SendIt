@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by nayibasiselizalde on 11/18/17.

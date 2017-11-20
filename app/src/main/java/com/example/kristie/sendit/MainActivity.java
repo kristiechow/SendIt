@@ -2,6 +2,7 @@ package com.example.kristie.sendit;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -20,22 +21,28 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser currentUser;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private String userEmail;
 
     private Button messageButton;
     private Button emailButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        } else {
-            // No user is signed in
-        }
-
         addDrawerItems();
         setupDrawer();
 
@@ -84,13 +84,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    String userEmail = firebaseUser.getEmail();
+                }
+            }
+        };
 
     }
 
-
     private void addDrawerItems() {
 
-        String[] osArray = { "Profile ", "Organizer", "Contacts", "History", "Scheduled", "Settings" };
+        String[] osArray = { "Welcome!" , "Organizer", "Contacts", "History", "Scheduled", "Settings" };
         int[] drawableIds = {R.drawable.user, R.drawable.menu, R.drawable.contact, R.drawable.history, R.drawable.scheduled, R.drawable.settings};
 
         CustomAdapter mAdapter = new CustomAdapter(this,  osArray, drawableIds);
@@ -100,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
                 if (id == 0) {
                     //Intent ProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                     //startActivity(ProfileIntent);
@@ -114,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
                     //Intent CardIntent = new Intent(MainActivity.this, activity3.class);
                     //startActivity(CardIntent);
                 } else if (id == 4) {
-                    //Intent LogoutIntent = new Intent(MainActivity.this, avtivity4.class);
-                    //startActivity(LogoutIntent);
+                    Intent ScheduledIntent = new Intent(MainActivity.this, ScheduledActivity.class);
+                    startActivity(ScheduledIntent);
                 } else if (id == 5) {
                     Intent SettingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(SettingsIntent);

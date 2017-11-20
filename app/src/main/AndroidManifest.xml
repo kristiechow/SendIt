@@ -34,6 +34,7 @@
         <activity android:name="com.example.kristie.sendit.SignupActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.SMSActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.SettingsActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="com.example.kristie.sendit.ScheduledActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="com.example.kristie.sendit.MailSenderActivity" android:theme="@style/AppTheme.Dark"/>
         <activity android:name="com.example.kristie.sendit.SuccessEmailActivity" android:theme="@style/AppTheme.Dark"/>
     </application>
