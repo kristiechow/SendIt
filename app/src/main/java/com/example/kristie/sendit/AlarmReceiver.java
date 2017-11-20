@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -25,6 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver{
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setDefaults(-1);
 
         Notification notification = builder.setContentTitle("SendIt: Scheduled to Send In 15 minutes")
                 .setContentText("Swipe to view your current schedule")
